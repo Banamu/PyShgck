@@ -14,6 +14,11 @@ def read_cstring(data, offset):
         offset += 1
     return string_bytes
 
+def read_struct(file_object, struct):
+    """ Read a struct.Struct from file_object and return the unpacked tuple. """
+    data = file_object.read(struct.size)
+    return struct.unpack(data)
+
 
 def pad_data(data, padding, start_at = 0):
     while (start_at + len(data)) % padding != 0:
