@@ -2,8 +2,8 @@ from distutils.core import setup
 
 
 setup(
-    name = "Python Shgck Tools",
-    version = "1.0",
+    name = "PyShgck",
+    version = "1.0.1",
     description = "Some utilities I use on various Python projects",
     author = "Shgck",
     author_email = "shgck@pistache.land",
@@ -11,3 +11,4 @@ setup(
 
     packages = ["shgck_tools"]
 )
+
