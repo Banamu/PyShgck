@@ -1,9 +1,9 @@
 """ Utilities for parsing binary data. """
 
 
-def read_cstring(data, offset, utf16_mode = False):
-    """ Read the 0-terminated string from data at position offset and return
-    corresponding bytes object (terminator excluded).
+def read_cstring(file_object, offset, utf16_mode = False):
+    """ Read the 0-terminated string from file_object at position offset and
+    return corresponding bytes object (terminator excluded).
 
     If utf16_mode is true, it doesn't stop reading on the null bytes caused by
     smaller Unicode code points. In little-endian, that's just checking for an
@@ -12,8 +12,8 @@ def read_cstring(data, offset, utf16_mode = False):
     string_bytes = b""
     current_offset = offset
     while True:
-        data.seek(current_offset)
-        next_byte = data.read(1)
+        file_object.seek(current_offset)
+        next_byte = file_object.read(1)
         if not next_byte:
             break
         if next_byte == b"\x00":
