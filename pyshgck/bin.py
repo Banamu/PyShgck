@@ -28,8 +28,9 @@ def read_struct(file_object, struct):
     data = file_object.read(struct.size)
     return struct.unpack(data)
 
-
 def pad_data(data, padding, start_at = 0):
+    """ Pad a piece of data according to the padding value and returns the
+    result. Use start_at to specify an offset at the starting point. """
     while (start_at + len(data)) % padding != 0:
         data += b"\x00"
     return data

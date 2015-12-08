@@ -1,3 +1,5 @@
+""" A standalone tool to try all Python encodings on a text file. """
+
 import argparse
 import sys
 
@@ -32,6 +34,10 @@ ENCODINGS = [
 
 
 def try_encodings(data, log_file):
+    """ Try to decode data for all known encodings, store output in a file named
+    log_file.
+
+    If log_file is the string '-', the output is printed on stdout. """
     results = {}
     for encoding in ENCODINGS:
         results[encoding] = try_encoding(encoding, data)
@@ -53,9 +59,6 @@ def write_log(results, logger):
     for encoding in results:
         result = results[encoding] or "<decoding failed>"
         logger.write(encoding + ": " + result + "\n")
-
-
-
 
 
 def main():
