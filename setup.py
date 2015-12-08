@@ -3,12 +3,12 @@ from distutils.core import setup
 
 setup(
     name = "PyShgck",
-    version = "1.0.1",
-    description = "Some utilities I use on various Python projects",
+    version = "1.0.2",
+    description = "Toolbox with utilities I use on various Python projects",
     author = "Shgck",
     author_email = "shgck@pistache.land",
     url = "https://gitlab.com/Shgck/py-shgck-tools",
 
-    packages = ["shgck_tools"]
+    packages = ["pyshgck"]
 )
 
