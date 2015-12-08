@@ -3,8 +3,9 @@
 import threading
 
 
-def simple_thread(func):
+def simple_thread(func, daemon = True):
     """ Start function in another thread, discarding return value. """
     thread = threading.Thread(target = func)
-    thread.daemon = True
+    thread.daemon = daemon
     thread.start()
+    return thread
