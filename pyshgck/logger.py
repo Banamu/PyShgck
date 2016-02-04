@@ -6,35 +6,43 @@ import logging
 import platform
 
 
-# class _AnsiColorStreamHandler(logging.StreamHandler):
-#     DEFAULT = '\x1b[0m'
-#     RED     = '\x1b[31m'
-#     GREEN   = '\x1b[32m'
-#     YELLOW  = '\x1b[33m'
-#     CYAN    = '\x1b[36m'
+class _AnsiColorStreamHandler(logging.StreamHandler):
 
-#     CRITICAL = RED
-#     ERROR    = RED
-#     WARNING  = YELLOW
-#     INFO     = GREEN
-#     DEBUG    = CYAN
+    DEFAULT = '\x1b[0m'
+    RED     = '\x1b[31m'
+    GREEN   = '\x1b[32m'
+    YELLOW  = '\x1b[33m'
+    CYAN    = '\x1b[36m'
 
-#     @classmethod
-#     def _get_color(cls, level):
-#         if level >= logging.CRITICAL:  return cls.CRITICAL
-#         elif level >= logging.ERROR:   return cls.ERROR
-#         elif level >= logging.WARNING: return cls.WARNING
-#         elif level >= logging.INFO:    return cls.INFO
-#         elif level >= logging.DEBUG:   return cls.DEBUG
-#         else:                          return cls.DEFAULT
+    CRITICAL = RED
+    ERROR    = RED
+    WARNING  = YELLOW
+    INFO     = GREEN
+    DEBUG    = CYAN
 
-#     def __init__(self, stream=None):
-#         logging.StreamHandler.__init__(self, stream)
+    def __init__(self, stream = None):
+        super().__init__(stream)
 
-#     def format(self, record):
-#         text = logging.StreamHandler.format(self, record)
-#         color = self._get_color(record.levelno)
-#         return color + text + self.DEFAULT
+    def format(self, record):
+        text = super().format(record)
+        color = self._get_color_code(record.levelno)
+        return color + text + self.DEFAULT
+
+    @classmethod
+    def _get_color_code(cls, level):
+        if level >= logging.CRITICAL:
+            return cls.CRITICAL
+        elif level >= logging.ERROR:
+            return cls.ERROR
+        elif level >= logging.WARNING:
+            return cls.WARNING
+        elif level >= logging.INFO:
+            return cls.INFO
+        elif level >= logging.DEBUG:
+            return cls.DEBUG
+        else:
+            return cls.DEFAULT
+
 
 # Disable protected member access warning for MSVC functions.
 # pylint: disable=W0212
@@ -109,11 +117,11 @@ class _WinColorStreamHandler(logging.StreamHandler):
     def _set_color_code(self, code):
         ctypes.windll.kernel32.SetConsoleTextAttribute(self.output_handle, code)
 
-# select ColorStreamHandler based on platform
+
 if platform.system() == "Windows":
     ColorStreamHandler = _WinColorStreamHandler
-# else:
-#     ColorStreamHandler = _AnsiColorStreamHandler
+else:
+    ColorStreamHandler = _AnsiColorStreamHandler
 
 
 _LOG_LEVEL   = logging.DEBUG
