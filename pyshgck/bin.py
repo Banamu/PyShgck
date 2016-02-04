@@ -2,8 +2,8 @@
 
 
 def read_cstring(file_object):
-    """ Read the 0-terminated string from file_object at position offset and
-    return corresponding bytes object (terminator excluded). """
+    """ Read the 0-terminated string from file_object and return the bytes
+    object (terminator excluded). """
     cstring = b""
     while True:
         char = file_object.read(1)
@@ -13,25 +13,18 @@ def read_cstring(file_object):
             break
     return cstring
 
-# def read_utf16_string(file_object, offset, utf16_mode = False):
-#     string_bytes = b""
-#     current_offset = offset
-#     while True:
-#         file_object.seek(current_offset)
-#         next_byte = file_object.read(1)
-#         if not next_byte:
-#             break
-#         if next_byte == b"\x00":
-#             if not (utf16_mode and (current_offset - offset) % 2 != 0):
-#                 break
-#         string_bytes += next_byte
-#         current_offset += 1
-#     return string_bytes
-
-# def read_utf16be_string():
-#     pass
-
-
+def read_utf16_string(file_object):
+    """ Read a 0-terminated UTF16 string from file_object and return the bytes
+    object (terminator excluded). This assumes that strings are stored with a
+    uint16 null terminator, and should work with UTF16 LE as well as BE. """
+    utf16_string = b""
+    while True:
+        wide_char = file_object.read(2)
+        if wide_char and wide_char != b"\x00\x00":
+            utf16_string += wide_char
+        else:
+            break
+    return utf16_string
 
 def read_struct(file_object, struct):
     """ Read a struct.Struct from file_object and return the unpacked tuple. """
