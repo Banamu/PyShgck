@@ -1,27 +1,37 @@
 """ Utilities for parsing binary data. """
 
 
-def read_cstring(file_object, offset, utf16_mode = False):
+def read_cstring(file_object):
     """ Read the 0-terminated string from file_object at position offset and
-    return corresponding bytes object (terminator excluded).
-
-    If utf16_mode is true, it doesn't stop reading on the null bytes caused by
-    smaller Unicode code points. In little-endian, that's just checking for an
-    even offset to stop. It works, r-right? Don't use it for UTF16-BE.
-    """
-    string_bytes = b""
-    current_offset = offset
+    return corresponding bytes object (terminator excluded). """
+    cstring = b""
     while True:
-        file_object.seek(current_offset)
-        next_byte = file_object.read(1)
-        if not next_byte:
+        char = file_object.read(1)
+        if char and char != b"\x00":
+            cstring += char
+        else:
             break
-        if next_byte == b"\x00":
-            if not (utf16_mode and (current_offset - offset) % 2 != 0):
-                break
-        string_bytes += next_byte
-        current_offset += 1
-    return string_bytes
+    return cstring
+
+# def read_utf16_string(file_object, offset, utf16_mode = False):
+#     string_bytes = b""
+#     current_offset = offset
+#     while True:
+#         file_object.seek(current_offset)
+#         next_byte = file_object.read(1)
+#         if not next_byte:
+#             break
+#         if next_byte == b"\x00":
+#             if not (utf16_mode and (current_offset - offset) % 2 != 0):
+#                 break
+#         string_bytes += next_byte
+#         current_offset += 1
+#     return string_bytes
+
+# def read_utf16be_string():
+#     pass
+
+
 
 def read_struct(file_object, struct):
     """ Read a struct.Struct from file_object and return the unpacked tuple. """
