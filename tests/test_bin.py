@@ -52,5 +52,5 @@ class BinTests(unittest.TestCase):
         self.assertEquals(padded_to_16_plus_8, padded_to_16_plus_8_expected)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

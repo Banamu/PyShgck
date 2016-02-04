@@ -20,5 +20,5 @@ class EncodingsTests(unittest.TestCase):
             try_encodings(binary_text, '-')
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

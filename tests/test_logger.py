@@ -32,5 +32,5 @@ class LoggerTests(unittest.TestCase):
         self.assertNotEqual(log_file_size, 0)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()
