@@ -32,16 +32,28 @@ def try_encodings(data, log_file):
 def try_encoding(encoding, data):
     """ Return decoded data, or None if decoding failed. """
     try:
-        print(data)
         return codecs.decode(data, encoding, "strict")
     except UnicodeDecodeError:
         return None
 
+_WRITE_LOG_FAIL    = "{:<15} {}\n"
+_WRITE_LOG_SUCCESS = "{:<15} -> {}\n"
 
 def _write_log(results, logger):
     for encoding in results:
-        result = results[encoding] or "<decoding failed>"
-        logger.write("{:<15} -> {}\n".format(encoding, result))
+        result = results[encoding]
+        if result is None:
+            logger.write(_WRITE_LOG_FAIL.format(encoding, "decoding failed"))
+        else:
+            _try_write_log(encoding, result, logger)
+
+def _try_write_log(encoding, result, logger):
+    try:
+        logger.write(_WRITE_LOG_SUCCESS.format(encoding, result))
+    except UnicodeEncodeError:
+        logger.write(_WRITE_LOG_FAIL.format(
+            encoding, "decoding succeeded, but stdout doesn't support it"
+        ))
 
 
 def main():
