@@ -7,7 +7,7 @@ def read_cstring(file_object, offset, utf16_mode = False):
 
     If utf16_mode is true, it doesn't stop reading on the null bytes caused by
     smaller Unicode code points. In little-endian, that's just checking for an
-    even offset to stop. It works, r-right?
+    even offset to stop. It works, r-right? Don't use it for UTF16-BE.
     """
     string_bytes = b""
     current_offset = offset
