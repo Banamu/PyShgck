@@ -2,6 +2,7 @@
 
 from os.path import dirname, join
 import unittest
+from struct import Struct
 
 from pyshgck.bin import read_cstring, read_struct, pad_data
 
@@ -14,8 +15,9 @@ ASCII_CONTENT = "test string".encode("utf8")
 UTF16LE_FILE_PATH = join(FILES_DIR, "utf16le.bin")
 UTF16LE_CONTENT = "ソウルシリーズ".encode("utf16")
 
-UTF16_FILE_PATH = os.path.join(FILES_DIR, "utf16_and_garbage.bin")
-UTF16_CONTENT = "ソウルシリーズ".encode("utf16")
+INTS_FILE_PATH = join(FILES_DIR, "ints.bin")
+INTS_BIN = Struct("<4I")
+INTS_PACKED = (1, 3, 2, 5)
 
 FOUR_BYTES = b"aaaa"
 
@@ -34,6 +36,11 @@ class BinTests(unittest.TestCase):
             utf16_file.seek(25)
             utf16_string = read_cstring(utf16_file)
             self.assertEquals(utf16_string, UTF16LE_CONTENT)
+
+    def test_read_struct(self):
+        with open(INTS_FILE_PATH, "rb") as ints_file:
+            ints = read_struct(ints_file, INTS_BIN)
+            self.assertEquals(ints, INTS_PACKED)
 
     def test_pad_data(self):
         padded_to_16 = pad_data(FOUR_BYTES, 16)
