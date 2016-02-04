@@ -13,7 +13,7 @@ LOGFILE_ARG_HELP = "log file, use - to output on stdout"
 # remove special irrelevant encodings that will raise specific exceptions.
 ENCODINGS = set(encodings.aliases.aliases.values())
 ENCODINGS -= set( ( "base64_codec", "bz2_codec", "hex_codec", "rot_13"
-                  , "tactis", "uu_codec", "zlib_codec" ) )
+                  , "uu_codec", "zlib_codec" ) )
 
 
 def try_encodings(data, log_file):
@@ -30,13 +30,13 @@ def try_encodings(data, log_file):
         _write_log(results, sys.stdout)
 
 def try_encoding(encoding, data):
-    """ Return decoded data, or None if decoding failed. """
+    """ Return decoded data, or None if decoding failed or the codec isn't
+    usable on this machine. """
     try:
         print(data)
         return codecs.decode(data, encoding, "strict")
-    except UnicodeDecodeError:
+    except (UnicodeDecodeError, LookupError):
         return None
-
 
 def _write_log(results, logger):
     for encoding in results:
