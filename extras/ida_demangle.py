@@ -1,5 +1,6 @@
 """ IDAPython plugin to demangle the string under the cursor and set the result
-as comment.
+as comment. This relies on the DbgHelp DLL on your system, so it should work for
+most recent VC versions.
 
 As IDAPython is for Python 2 only and PyShgck is a Python 3 project, it is not
 possible to use the system-wide Python 3 installed packages, where PyShgck
@@ -10,10 +11,25 @@ import ctypes
 import ctypes.util
 import platform
 
+import idaapi
 import idc
 
 MAX_DEMANGLED_LEN = 2**12
 
+
+def demangle_str_at_screen_ea():
+    ea = idc.ScreenEA()
+    string = idc.GetString(ea)
+    if not string:
+        print("Couldn't get any string at {}.".format(hex(ea)))
+        return
+
+    demangled = demangle_vc(string)
+    if not demangled:
+        print("Demangling failed.")
+        return
+
+    idc.MakeComm(ea, demangled)
 
 def demangle_vc(name, flags = 0x2800):
     """ Call DbgHelp.UnDecorateSymbolName and return the demangled name bytes.
@@ -41,18 +57,12 @@ def demangle_vc(name, flags = 0x2800):
 
 
 def main():
-    ea = idc.ScreenEA()
-    string = idc.GetString(ea)
-    if not string:
-        print("Couldn't get any string at {}.".format(hex(ea)))
-        return
-
-    demangled = demangle_vc(string)
-    if not demangled:
-        print("Demangling failed.")
-        return
-
-    idc.MakeComm(ea, demangled)
+    bindings = {
+        "Shift-G": demangle_str_at_screen_ea
+    }
+    for binding in bindings:
+        idaapi.add_hotkey(binding, bindings[binding])
+    print "Bound " + ", ".join(bindings.keys())
 
 
 if __name__ == "__main__":
