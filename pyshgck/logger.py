@@ -1,4 +1,4 @@
-""" A colored stream/file logger. """
+""" A cross-platform colored stream/file logger. """
 
 import ctypes
 import ctypes.util
