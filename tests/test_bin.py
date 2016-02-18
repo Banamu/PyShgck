@@ -55,6 +55,19 @@ class BinTests(unittest.TestCase):
         padded_to_16_plus_8_expected = FOUR_BYTES + (4 * b"\x00")
         self.assertEquals(padded_to_16_plus_8, padded_to_16_plus_8_expected)
 
+    def test_pad_file(self):
+        file_object = io.BytesIO()
+        file_object.write(FOUR_BYTES)
+        pad_file(file_object, 16)
+        padded_to_16_expected = FOUR_BYTES + (12 * b"\x00")
+        self.assertEquals(file_object.getbuffer(), padded_to_16_expected)
+
+        file_object = io.BytesIO()
+        file_object.write(FOUR_BYTES)
+        pad_file(file_object, 16, start_at = 8)
+        padded_to_16_plus_8_expected = FOUR_BYTES + (4 * b"\x00")
+        self.assertEquals(file_object.getbuffer(), padded_to_16_plus_8_expected)
+
 
 if __name__ == "__main__":
     unittest.main()
