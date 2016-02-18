@@ -1,10 +1,13 @@
 # encoding: utf8
 
+import io
 from os.path import dirname, join
 import unittest
 from struct import Struct
 
-from pyshgck.bin import read_cstring, read_struct, pad_data
+from pyshgck.bin import (
+    read_cstring, read_utf16_string, read_struct,
+    pad_data, pad_file )
 
 
 FILES_DIR = join(dirname(__file__), "files")
@@ -13,7 +16,7 @@ CSTRING_FILE_PATH = join(FILES_DIR, "utf8.bin")
 ASCII_CONTENT = "test string".encode("utf8")
 
 UTF16LE_FILE_PATH = join(FILES_DIR, "utf16le.bin")
-UTF16LE_CONTENT = "ソウルシリーズ".encode("utf16")
+UTF16LE_CONTENT = "SLTソウルシリーズ".encode("utf16")
 
 INTS_FILE_PATH = join(FILES_DIR, "ints.bin")
 INTS_BIN = Struct("<4I")
@@ -29,12 +32,13 @@ class BinTests(unittest.TestCase):
             utf8_string = read_cstring(ascii_file)
             self.assertEquals(utf8_string, ASCII_CONTENT)
 
+    def test_read_utf16_string(self):
         with open(UTF16LE_FILE_PATH, "rb") as utf16_file:
-            utf16_string = read_cstring(utf16_file)
+            utf16_string = read_utf16_string(utf16_file)
             self.assertEquals(utf16_string, UTF16LE_CONTENT)
 
             utf16_file.seek(25)
-            utf16_string = read_cstring(utf16_file)
+            utf16_string = read_utf16_string(utf16_file)
             self.assertEquals(utf16_string, UTF16LE_CONTENT)
 
     def test_read_struct(self):
