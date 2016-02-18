@@ -3,7 +3,7 @@
 from os.path import dirname, join
 import unittest
 
-from pyshgck.encodings import try_encodings
+from pyshgck.enc import try_encodings
 
 
 FILES_DIR = join(dirname(__file__), "files")
