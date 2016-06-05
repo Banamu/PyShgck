@@ -4,8 +4,8 @@ import time
 
 
 def time_it(logger = None):
-    def outer_decorator_time_it(func):
-        def decorator_time_it(*args, **kwargs):
+    def time_it_func_decorator(func):
+        def time_it_decorator(*args, **kwargs):
             begin_time = time.time()
             return_value = func(*args, **kwargs)
             end_time = time.time()
@@ -20,5 +20,5 @@ def time_it(logger = None):
                 print(timing_str)
 
             return return_value
-        return decorator_time_it
-    return outer_decorator_time_it
+        return time_it_decorator
+    return time_it_func_decorator
