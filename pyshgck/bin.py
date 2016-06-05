@@ -32,19 +32,19 @@ def read_struct(file_object, struct):
     return struct.unpack(data)
 
 
-def pad_file(file_object, padding, start_at = 0):
+def pad_file(file_object, pad_amount, pad_value = b"\x00", start_at = 0):
     """ Pad a file opened in write mode according to the padding value.
     Use start_at to specify an offset at the starting point. """
     end_position = file_object.tell() + start_at
-    if end_position % padding != 0:
-        pad_size = padding - (end_position % padding)
-        file_object.write(b"\x00" * pad_size)
+    if end_position % pad_amount != 0:
+        pad_size = pad_amount - (end_position % pad_amount)
+        file_object.write(pad_value * pad_size)
 
-def pad_data(data, padding, start_at = 0):
+def pad_data(data, pad_amount, pad_value = b"\x00", start_at = 0):
     """ Pad a piece of data according to the padding value and returns the
     result. Use start_at to specify an offset at the starting point. """
     end_position = len(data) + start_at
-    if end_position % padding != 0:
-        pad_size = padding - (end_position % padding)
-        data += b"\x00" * pad_size
+    if end_position % pad_amount != 0:
+        pad_size = pad_amount - (end_position % pad_amount)
+        data += pad_value * pad_size
     return data
