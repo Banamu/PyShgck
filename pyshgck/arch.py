@@ -11,3 +11,8 @@ def is_64bit_python():
 def is_64bit_system():
     """ Return True if the OS is 64-bit. """
     return platform.machine().endswith("64")
+
+
+if __name__ == "__main__":
+    print("Arch:", "64-bit" if is_64bit_system() else "32-bit")
+    print("Interpreter:", "64-bit" if is_64bit_python() else "32-bit")
