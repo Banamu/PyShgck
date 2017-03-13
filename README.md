@@ -5,10 +5,12 @@ Little set of Python libs that I use in multiple projects.
 
 - *arch*: guess "64-bitness" of system or Python interpreter.
 - *bin*: handy binary file reading methods
-- *concurrency*: threading helpers
-- *encodings*: help to guess encoding of a file
+- *conc*: threading helpers
+- *enc*: help to guess encoding of a file
+- *exe*: functions related to Windows PE files
 - *format*: pretty formatting of various kind of data
-- *logger*: cross-platform coloured root logger
+- *log*: cross-platform coloured root logger
+- *time*: utilities to measure time
 
 TODO
 
