@@ -1,9 +1,10 @@
-""" A cross-platform colored stream/file logger. """
+""" A cross-platform, package independant, colored stream/file logger. """
+
+import logging
+import platform
 
 import ctypes
 import ctypes.util
-import logging
-import platform
 
 
 class _AnsiColorStreamHandler(logging.StreamHandler):

@@ -11,8 +11,3 @@ Little set of Python libs that I use in multiple projects.
 - *format*: pretty formatting of various kind of data
 - *log*: cross-platform coloured root logger
 - *time*: utilities to measure time
-
-TODO
-
-- clean read_cstring
-- best logger?
