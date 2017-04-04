@@ -1,6 +1,10 @@
 """ Utilities for parsing binary data. """
 
 
+################################################################################
+# Read data structures through file objects
+################################################################################
+
 def read_cstring(file_object):
     """ Read the 0-terminated string from file_object and return the bytes
     object (terminator excluded). """
@@ -31,6 +35,10 @@ def read_struct(file_object, struct):
     data = file_object.read(struct.size)
     return struct.unpack(data)
 
+
+################################################################################
+# Padding
+################################################################################
 
 def pad_file(file_object, pad_amount, pad_value = b"\x00", start_at = 0):
     """ Pad a file opened in write mode according to the padding value.

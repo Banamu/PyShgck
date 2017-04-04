@@ -4,6 +4,7 @@ import time
 
 
 def time_it(logger = None):
+    """ Decorator that will roughly mesure execution time for a function. """
     def time_it_func_decorator(func):
         def time_it_decorator(*args, **kwargs):
             begin_time = time.time()

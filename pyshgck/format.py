@@ -1,12 +1,33 @@
-""" Utilities for formatting data. """
+""" Utilities for formatting data. Can be run as a standalone tool. """
 
+import argparse
 import binascii
 import string
 
 
+def main():
+    argparser = argparse.ArgumentParser(description = DESCRIPTION)
+    argparser.add_argument("input_file", type = str, help = "file to hexdump")
+    args = argparser.parse_args()
+
+    with open(args.input_file, "rb") as input_file:
+        data = input_file.read()
+
+    print(dump_data(data))
+
+
+################################################################################
+# Small formatting functions
+################################################################################
+
 def hexlify(data):
     """ Short handle to get data as a readable string. """
     return binascii.hexlify(data).decode("ascii")
+
+
+################################################################################
+# Hexdump pretty printer
+################################################################################
 
 def dump_data(data):
     """ Return a pretty binary data representation in a Hexdump fashion. """
@@ -44,3 +65,7 @@ def _get_asciidump_string(data):
         else:
             asciidump += "."
     return asciidump
+
+
+if __name__ == "__main__":
+    main()
