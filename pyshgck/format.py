@@ -2,18 +2,27 @@
 
 import argparse
 import binascii
+import json
 import string
 
 
+DESCRIPTION = "Hexdump and formatting utils"
+
+
 def main():
-    argparser = argparse.ArgumentParser(description = DESCRIPTION)
-    argparser.add_argument("input_file", type = str, help = "file to hexdump")
+    argparser = argparse.ArgumentParser(description=DESCRIPTION)
+    argparser.add_argument("input_file", type=str, help="file to hexdump")
     args = argparser.parse_args()
 
-    with open(args.input_file, "rb") as input_file:
-        data = input_file.read()
+    input_filepath = args.input_file
+    try:
+        with open(input_filepath, "rb") as input_file:
+            data = input_file.read()
+    except OSError as exc:
+        print("Couldn't load {}: {}".format(input_filepath, exc))
+        return
 
-    print(dump_data(data))
+    print(get_data_dump(data))
 
 
 ################################################################################
@@ -21,15 +30,19 @@ def main():
 ################################################################################
 
 def hexlify(data):
-    """ Short handle to get data as a readable string. """
+    """ Short handle to get data as a readable str. """
     return binascii.hexlify(data).decode("ascii")
+
+def get_json_dump(json_object, indent=4, sort_keys=False):
+    """ Short handle to get a pretty printed str from a JSON object. """
+    return json.dumps(json_object, indent=indent, sort_keys=sort_keys)
 
 
 ################################################################################
 # Hexdump pretty printer
 ################################################################################
 
-def dump_data(data):
+def get_data_dump(data):
     """ Return a pretty binary data representation in a Hexdump fashion. """
     dump = ""
     index = 0
