@@ -22,7 +22,12 @@ def main():
     argparser.add_argument("log_file", type=str, help=LOGFILE_ARG_HELP)
     args = argparser.parse_args()
 
-        data = input_file.read()
+    try:
+        with open(args.input_file, "rb") as input_file:
+            data = input_file.read()
+    except OSError as exc:
+        print("Couldn't load {}: {}".format(args.input_file, exc))
+        return
 
     try_encodings(data, args.log_file)
 
