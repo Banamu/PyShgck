@@ -21,7 +21,7 @@ class _AnsiColorStreamHandler(logging.StreamHandler):
     INFO     = GREEN
     DEBUG    = CYAN
 
-    def __init__(self, stream = None):
+    def __init__(self, stream=None):
         super().__init__(stream)
 
     def format(self, record):
@@ -81,7 +81,7 @@ class _WinColorStreamHandler(logging.StreamHandler):
     INFO     = FOREGROUND_GREEN
     DEBUG    = FOREGROUND_CYAN
 
-    def __init__(self, stream = None):
+    def __init__(self, stream=None):
         super().__init__(stream)
         self.output_handle = self._get_output_handle(stream)
 
@@ -130,12 +130,12 @@ _FORMAT      = "%(asctime)s %(levelname)-8s %(message)s"
 _DATE_FORMAT = "%H:%M:%S"
 
 
-def get_logger( name = "pyshgck", level = _LOG_LEVEL
-              , log_format = _FORMAT, date_format = _DATE_FORMAT
-              , into_stderr = True, into_log_file = None ):
+def get_logger( name="pyshgck", level=_LOG_LEVEL
+              , log_format=_FORMAT, date_format=_DATE_FORMAT
+              , into_stderr=True, into_log_file=None ):
     logger = logging.getLogger(name)
     logger.setLevel(level)
-    formatter = logging.Formatter(fmt = log_format, datefmt = date_format)
+    formatter = logging.Formatter(fmt=log_format, datefmt=date_format)
 
     if into_stderr:
         stream_handler = ColorStreamHandler()
@@ -144,7 +144,7 @@ def get_logger( name = "pyshgck", level = _LOG_LEVEL
         logger.addHandler(stream_handler)
 
     if into_log_file is not None:
-        file_handler = logging.FileHandler(into_log_file, mode = "w")
+        file_handler = logging.FileHandler(into_log_file, mode="w")
         file_handler.setLevel(level)
         file_handler.setFormatter(formatter)
         logger.addHandler(file_handler)

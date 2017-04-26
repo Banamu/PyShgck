@@ -17,12 +17,11 @@ ENCODINGS -= set( ( "base64_codec", "bz2_codec", "hex_codec", "rot_13"
 
 
 def main():
-    argparser = argparse.ArgumentParser(description = DESCRIPTION)
-    argparser.add_argument("input_file", type = str, help = "file to test")
-    argparser.add_argument("log_file", type = str, help = LOGFILE_ARG_HELP)
+    argparser = argparse.ArgumentParser(description=DESCRIPTION)
+    argparser.add_argument("input_file", type=str, help="file to test")
+    argparser.add_argument("log_file", type=str, help=LOGFILE_ARG_HELP)
     args = argparser.parse_args()
 
-    with open(args.input_file, "rb") as input_file:
         data = input_file.read()
 
     try_encodings(data, args.log_file)
@@ -35,7 +34,7 @@ def try_encodings(data, log_file):
         results[encoding] = try_encoding(encoding, data)
 
     if log_file != "-":
-        with open(log_file, "w", encoding = "utf8") as log:
+        with open(log_file, "w", encoding="utf8") as log:
             write_log(results, log)
     else:
         write_log(results, sys.stdout)
