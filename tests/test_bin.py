@@ -2,21 +2,24 @@
 
 import io
 from os.path import dirname, join
-import unittest
 from struct import Struct
 
-from pyshgck.bin import (
-    read_cstring, read_utf16_string, read_struct,
-    pad_data, pad_file )
+import pytest
 
+from pyshgck.bin import read_cstring
 
-FILES_DIR = join(dirname(__file__), "files")
 
 CSTRING_FILE_PATH = join(FILES_DIR, "utf8.bin")
 ASCII_CONTENT = "test string".encode("utf8")
 
 UTF16LE_FILE_PATH = join(FILES_DIR, "utf16le.bin")
 UTF16LE_CONTENT = "SLTソウルシリーズ".encode("utf16")
+
+@pytest.fixture
+def integers_file():
+    return io.BytesIO(
+        b"\x01\x00\x00\x00\x03\x00\x00\x00\x02\x00\x00\x00\x05\x00\x00\x00"
+    )
 
 INTS_FILE_PATH = join(FILES_DIR, "ints.bin")
 INTS_BIN = Struct("<4I")
@@ -25,7 +28,8 @@ INTS_PACKED = (1, 3, 2, 5)
 FOUR_BYTES = b"aaaa"
 
 
-class BinTests(unittest.TestCase):
+@pytest.mark.skip("redo")
+class TestBinaryUtils(object):
 
     def test_read_cstring(self):
         with open(CSTRING_FILE_PATH, "rb") as ascii_file:
