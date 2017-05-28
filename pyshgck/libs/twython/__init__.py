@@ -2,24 +2,30 @@
 
 import logging
 
+from pyshgck.log import get_logger
+
+
+DEFAULT_LOG_LEVEL = logging.DEBUG
+LOG = get_logger('pyshgck.libs.twython', level=DEFAULT_LOG_LEVEL)
+
+
 try:
     from twython import Twython
     from twython.exceptions import TwythonError
 except ImportError:
-    print("Can't import Twython.")
-
-from pyshgck.log import get_logger
+    LOG.error("Can't import Twython.")
 
 
 class CommandLineAuthorizer(object):
     """ Provide a command-line interface to authorize an account to use
     a desktop Twitter app."""
 
-    def __init__(self, app_key, app_secret, log=None,
-                 log_level=logging.WARNING):
+    def __init__(self, app_key, app_secret, log=None, log_level=None):
         self.app_tokens = app_key, app_secret
         self.user_tokens = ("", "")
-        self.log = log or get_logger("pyshgck.libs.twython", level=log_level)
+        self.log = log or LOG
+        if log_level is not None:
+            self.log.setLevel(log_level)
 
     def get_twython_api(self):
         try:
