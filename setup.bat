@@ -1,4 +1,4 @@
-python setup.py clean
-python setup.py build
-python setup.py install
+python setup.py clean --user
+python setup.py build --user
+python setup.py install --user
 pause
