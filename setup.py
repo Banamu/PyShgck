@@ -1,6 +1,4 @@
 from distutils.core import setup
-
-
 setup(
     name         = "PyShgck",
     version      = "2.2.0",
